@@ -1,0 +1,36 @@
+#------------------- Variables -------------------
+variable        x equal 10				# simulation size, x
+variable        y equal 10				# simulation size, y
+variable        z equal 30				# simulation size, z
+variable        lattice equal 3.615		# copper lattice constant
+variable        T equal 300				# system temperature
+variable		E equal 1.6e10			# Young's modulus of copper ~300K in N/m2
+variable		Nm2eV equal 6.2415e18	# convert Nm to eV
+variable		m2A equal 1e10			# convert meter to Angstrom
+variable		k1 equal $E*${lattice}/${m2A}			# harmonic constant in Newton per meter
+variable		k2 equal ${k1}*${Nm2eV}/${m2A}/${m2A}	# harmonic constant in eV/Angstrom^2
+
+#------------------- Simulation Box -------------------
+
+units			metal
+boundary		p p f
+dimension		3
+atom_style 		full
+pair_style		lj/cut 10.0
+bond_style		harmonic
+lattice			fcc ${lattice}
+region			box block 0 $x 0 $y 0 $z
+create_box 		1 box bond/types 1 extra/bond/per/atom 5
+
+#------------------- Create Atoms -------------------
+
+region			copper_box block 0 10 0 10 1 4
+create_atoms    1 region copper_box						# Cu
+
+mass            1 63.557			#Cu
+pair_coeff		* * 0 0
+bond_coeff		1 ${k2} ${lattice}							# k = E * d; Young modulus times lattice's constant
+create_bonds	many all all 1 3.6 3.7				# bond distance 3.615
+
+write_data copper.data
+print ${k2}

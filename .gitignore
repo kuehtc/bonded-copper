@@ -1,0 +1,4 @@
+# telll git to ignore .lammps files
+
+*.lammps
+*.vmd
