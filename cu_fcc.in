@@ -37,4 +37,4 @@ print ${k2}
 
 #just simply want to change something
 # this is some changes for new GitBranch "MoreText"
-# this is another conflicting text for master branch
+# another Text just conflicting branch versions
