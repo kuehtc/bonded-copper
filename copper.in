@@ -34,3 +34,5 @@ create_bonds	many all all 1 3.6 3.7				# bond distance 3.615
 
 write_data copper.data
 print ${k2}
+
+#just simply want to change something
